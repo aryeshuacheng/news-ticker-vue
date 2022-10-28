@@ -1,27 +1,36 @@
 <template>
-  <p>
-    <input v-model="query" placeholder="Query"/>
+  Query: <input v-model="query" placeholder="Query"/>
+  <br>
+  <div>
+    Sources
+    <b-form-select v-model="selected">
+      <b-form-select-option :value="null">Please select an option</b-form-select-option>
+      <b-form-select-option v-for= "source in sources" :value="source.id">{{ source.name }}</b-form-select-option>
+    </b-form-select>
+
+    <div class="mt-2">Selected: <strong>{{ selected }}</strong></div>
+  </div>
+  <br>
     <button @click="getNews()">Get News</button>
   <br>
-    <table-simple>
-      <thead variant="primary">
-        <tr>
-          <th>Name</th>
-          <th>Author</th>
-          <th>Published At</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="source in news">
-          <td>{{ source.name }}</td>
-          <td>{{ source.author }}</td>
-          <td>{{ source.publishedAt }}</td>
-          <td>{{ source.description }}</td>
-        </tr>
-      </tbody>
-    </table-simple>
-  </p>
+    <b-table-simple bordered small responsive>
+      <b-thead variant="primary">
+        <b-tr>
+          <b-th>Source</b-th>
+          <b-th>Author</b-th>
+          <b-th>Published At</b-th>
+          <b-th>Description</b-th>
+        </b-tr>
+      </b-thead>
+      <b-tbody>
+        <b-tr v-for="headline in news">
+          <b-td>{{ headline.name }}</b-td>
+          <b-td>{{ headline.author }}</b-td>
+          <b-td>{{ headline.publishedAt }}</b-td>
+          <b-td>{{ headline.description }}</b-td>
+        </b-tr>
+      </b-tbody>
+    </b-table-simple>
 </template>
 
 <script>
@@ -31,15 +40,29 @@ export default {
   setup() {
     let news = ref([])
     let query = ref('Bitcoin')
+    let sources =  ref([])
+    let source_name = ref('')
+    let selected = ref('')
 
     function getNews() {
-      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value)
+      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value + '&sources=' + this.selected)
           .then(response => response.json())
-          .then(response => news.value = response);
+          .then(response => news.value = response)
 
-      console.log(query.value);
+
     }
-    return { getNews, news, query };
+
+    function getSources() {
+      fetch('http://localhost:3000/api/v1/get_sources')
+          .then(response => response.json())
+          .then(response => sources.value = response)
+
+      console.log(sources)
+    }
+
+    getSources()
+
+    return { getNews, news, query, getSources, sources, source_name, selected}
   }
 }
 </script>

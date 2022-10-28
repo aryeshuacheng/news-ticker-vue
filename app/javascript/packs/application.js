@@ -17,5 +17,3 @@
 import initVueApp from "@/main.js"
 
 initVueApp()
-
-console.log('Hello World from Webpacker')
