@@ -7,10 +7,12 @@ class Api::V1::NewsController < ApplicationController
 
   def get_news
     if params[:sources].nil?
-      @news = @news_connection.get_top_headlines(q: params[:query])
-      puts "hey"
+      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8').body)['articles']
+      # @news = @news_connection.get_top_headlines(q: params[:query])
+      # puts "hey"
     else
-      @news = @news_connection.get_top_headlines(q: params[:query], sources: params[:sources])
+      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8'+'&source=' + params[:sources]).body)['articles']
+      # @news = @news_connection.get_top_headlines(q: params[:query], sources: params[:sources])
       puts "source present"
     end
 

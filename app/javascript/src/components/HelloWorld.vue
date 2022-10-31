@@ -23,11 +23,11 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="headline in news">
-          <b-td>{{ headline.name }}</b-td>
-          <b-td>{{ headline.author }}</b-td>
-          <b-td>{{ headline.publishedAt }}</b-td>
-          <b-td>{{ headline.description }}</b-td>
+        <b-tr v-for="article in news">
+          <b-td>{{ article.source.name }}</b-td>
+          <b-td>{{ article.author }}</b-td>
+          <b-td>{{ article.publishedAt }}</b-td>
+          <b-td>{{ article.description }}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
