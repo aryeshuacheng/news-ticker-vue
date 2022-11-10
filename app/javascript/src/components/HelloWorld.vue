@@ -1,5 +1,5 @@
 <template>
-  Query: <input v-model="query" placeholder="Query"/>
+  Search: <input v-model="query" placeholder="Query"/>
   <br>
   <div>
     Sources
@@ -24,7 +24,7 @@
       </b-thead>
       <b-tbody>
         <b-tr v-for="article in news">
-          <b-td>{{ article.source.name }}</b-td>
+          <b-td><a v-bind:href="article.url"> {{ article.source.name }} </a></b-td>
           <b-td>{{ article.author }}</b-td>
           <b-td>{{ article.publishedAt }}</b-td>
           <b-td>{{ article.description }}</b-td>
