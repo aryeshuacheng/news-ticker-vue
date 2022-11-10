@@ -1,11 +1,21 @@
 <template>
   Search: <input v-model="query" placeholder="Query"/> <button @click="saveQuery()">Save Query</button>
   <br>
-  Saved Queries:
   <br>
-  <p v-for="query in saved_queries">
-    <b-td @click="getNewsFromSavedQuery(query.name)"> {{ query.name }} </b-td>
-  </p>
+  <b-table-simple bordered small response>
+    <b-thead variant="primary">
+      <b-tr>
+        <b-th>Name</b-th>
+        <b-th>Additional Actions</b-th>
+      </b-tr>
+    </b-thead>
+    <b-tbody>
+      <b-tr v-for="query in saved_queries">
+        <b-td><a href="javascript:void(0);" @click="getNewsFromSavedQuery(query.name)"> {{ query.name }}</a></b-td>
+        <b-td><b-button variant="danger" @click="deleteQuery()">Delete Query</b-button></b-td>
+      </b-tr>
+    </b-tbody>
+  </b-table-simple>
 
   <div>
     Sources
@@ -48,7 +58,7 @@ export default {
   setup() {
     let news = ref([])
     let query = ref('Bitcoin')
-    let sources =  ref([])
+    let sources = ref([])
     let source_name = ref('')
     let selected = ref('')
     let saved_queries = ref([])
@@ -58,6 +68,7 @@ export default {
           .then(response => response.json())
           .then(response => news.value = response)
     }
+
     function getNewsFromSavedQuery(query) {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
           .then(response => response.json())
@@ -76,14 +87,18 @@ export default {
           .then(response => saved_queries.value = response)
     }
 
-    function saveQuery(){
-      fetch('http://localhost:3000/api/v1/save_source' + '?query=' + query.value)
+    function saveQuery() {
+      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value)
+    }
+
+    function deleteQuery() {
+      fetch('http://localhost:3000/api/v1/delete_query' + '?query=' + query.value)
     }
 
     getSavedQueries()
     getSources()
 
-    return { getNews,getSources, saveQuery, getNewsFromSavedQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
+    return { getNews,getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
   }
 }
 </script>
