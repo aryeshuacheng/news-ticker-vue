@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.6'
 
+gem 'devise'
 gem 'pry'
 gem 'news-api'
 gem 'excon'
