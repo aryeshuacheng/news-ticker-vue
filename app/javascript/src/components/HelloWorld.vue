@@ -17,6 +17,7 @@
       <b-thead variant="primary">
         <b-tr>
           <b-th>Source</b-th>
+          <b-th>Title</b-th>
           <b-th>Author</b-th>
           <b-th>Published At</b-th>
           <b-th>Description</b-th>
@@ -25,6 +26,7 @@
       <b-tbody>
         <b-tr v-for="article in news">
           <b-td><a v-bind:href="article.url"> {{ article.source.name }} </a></b-td>
+          <b-td>{{ article.title }}</b-td>
           <b-td>{{ article.author }}</b-td>
           <b-td>{{ article.publishedAt }}</b-td>
           <b-td>{{ article.description }}</b-td>
