@@ -8,12 +8,8 @@ class Api::V1::NewsController < ApplicationController
   def get_news
     if params[:sources].nil?
       @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8').body)['articles']
-      # @news = @news_connection.get_top_headlines(q: params[:query])
-      # puts "hey"
     else
       @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8'+'&source=' + params[:sources]).body)['articles']
-      # @news = @news_connection.get_top_headlines(q: params[:query], sources: params[:sources])
-      puts "source present"
     end
 
     render json: @news
@@ -28,5 +24,15 @@ class Api::V1::NewsController < ApplicationController
   def get_countries
     @countries = Excon.get('http://api.worldbank.org/v2/country')
     render json: @countries
+  end
+
+  def save_query
+    Query.create(name: params[:query])
+  end
+
+  def get_saved_queries
+    @queries = Query.all
+
+    render json: @queries
   end
 end

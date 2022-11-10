@@ -1,6 +1,12 @@
 <template>
-  Search: <input v-model="query" placeholder="Query"/>
+  Search: <input v-model="query" placeholder="Query"/> <button @click="saveQuery()">Save Query</button>
   <br>
+  Saved Queries:
+  <br>
+  <p v-for="query in saved_queries">
+    <b-td @click="getNewsFromSavedQuery(query.name)"> {{ query.name }} </b-td>
+  </p>
+
   <div>
     Sources
     <b-form-select v-model="selected">
@@ -45,26 +51,39 @@ export default {
     let sources =  ref([])
     let source_name = ref('')
     let selected = ref('')
+    let saved_queries = ref([])
 
     function getNews() {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value + '&sources=' + this.selected)
           .then(response => response.json())
           .then(response => news.value = response)
-
-
+    }
+    function getNewsFromSavedQuery(query) {
+      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
+          .then(response => response.json())
+          .then(response => news.value = response)
     }
 
     function getSources() {
       fetch('http://localhost:3000/api/v1/get_sources')
           .then(response => response.json())
           .then(response => sources.value = response)
-
-      console.log(sources)
     }
 
+    function getSavedQueries() {
+      fetch('http://localhost:3000/api/v1/get_saved_queries')
+          .then(response => response.json())
+          .then(response => saved_queries.value = response)
+    }
+
+    function saveQuery(){
+      fetch('http://localhost:3000/api/v1/save_source' + '?query=' + query.value)
+    }
+
+    getSavedQueries()
     getSources()
 
-    return { getNews, news, query, getSources, sources, source_name, selected}
+    return { getNews,getSources, saveQuery, getNewsFromSavedQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
   }
 }
 </script>
