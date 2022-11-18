@@ -1,0 +1,31 @@
+.left {
+  width: 20%;
+  float: left;
+}
+
+.center {
+    width: 80%;
+    float: left;
+}
+
+.nav {
+  margin: 0;
+  padding: 0;
+}
+.nav li {
+  margin: 1px 0;
+}
+.nav li a {
+  display: block;
+  line-height: 3em;
+  width: 100%;
+  text-decoration: none;
+}
+
+.row-width{
+    width: 30px;
+}
+
+.row-width-2{
+    width: 50px;
+}
