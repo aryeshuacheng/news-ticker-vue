@@ -1,21 +1,5 @@
 <template>
-  <center>
-    Search: <input v-model="query" placeholder="Query"/> <button @click="saveQuery()">Save Query</button>
-  </center>
-  <br>
-  <br>
-
-  <div>
-    <b-form-select v-model="selected">
-      <b-form-select-option :value="null">Please select an option</b-form-select-option>
-      <b-form-select-option v-for= "source in sources" :value="source.id">{{ source.name }}</b-form-select-option>
-    </b-form-select>
-
-    <div class="mt-2">Selected: <strong>{{ selected }}</strong></div>
-  </div>
-  <br>
-    <button @click="getNews()">Get News</button>
-  <br>
+  <div class ="center">
     <b-table-simple bordered small responsive>
       <b-thead variant="primary">
         <b-tr>
@@ -36,12 +20,15 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
+  </div>
 </template>
 
 <script>
   import { ref } from 'vue'
 
 export default {
+  name: 'News',
+  props: {name},
   setup() {
     let news = ref([])
     let query = ref('Bitcoin')
