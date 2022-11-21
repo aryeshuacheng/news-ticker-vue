@@ -27,6 +27,7 @@
   import { ref } from 'vue'
 
   let news
+
   export default {
   props: {news},
   setup() {
@@ -35,32 +36,15 @@
     let source_name = ref('')
     let selected = ref('')
 
-    function getNewsFromSavedQuery(query) {
-      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
-          .then(response => response.json())
-          .then(response => news.value = response)
-    }
-
     function getSources() {
       fetch('http://localhost:3000/api/v1/get_sources')
           .then(response => response.json())
           .then(response => sources.value = response)
     }
 
-
-
-
-
     getSources()
 
-    return {getSources, getNewsFromSavedQuery, query, sources, source_name, selected}
+    return {getSources, query, sources, source_name, selected}
   }
 }
 </script>
-
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
-</style>
