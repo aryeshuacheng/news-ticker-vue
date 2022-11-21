@@ -51,8 +51,6 @@ export default {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
           .then(response => response.json())
           .then(response => news.value = response)
-
-      console.log("getNewsFromSavedQuery() hit")
     }
 
     function deleteQuery(query) {
