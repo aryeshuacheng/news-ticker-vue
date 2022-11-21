@@ -7,7 +7,7 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="query in saved_queries">
+        <b-tr v-for="query in folderContents">
           <b-td>
             <a href="javascript:void(0);" @click="getNewsFromSavedQuery(query.name)"> {{ query.name }}</a>
             <p @click="deleteQuery(query.name)"> Delete</p>
@@ -19,19 +19,27 @@
 
   <div class="center">
     <center>
+      <b>Folders:</b>
+      <b-form-select v-model="selected" :options="folder_names"></b-form-select>
+      <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
+      <br>
+      <button @click="loadFolder()">Load Folder</button>
+      Add Folder: <input v-model="folderName" placeholder="Folder Name"/>
+      <button @click="addFolder()">Add</button>
+      <br>
       Search: <input v-model="query" placeholder="Query"/> <button @click="getNews()">Get News</button>
       <br>
-      <button @click="saveQuery()">Save Query</button>
+      <button @click="saveQuery()">Save Query To Folder</button>
     </center>
   </div>
 <News :news="news"/>
 
-<!--<SavedQueries  />-->
 </template>
 <script>
 import News from './news.vue'
 import {ref} from "vue";
 
+let folderName = ref('Entertainment')
 let query = ref('Hope')
 
 export default {
@@ -40,9 +48,18 @@ export default {
   data()
   {
     let news = ref()
+    let folderContents = ref([])
+
+    function addFolder() {
+      fetch('http://localhost:3000/api/v1/add_folder' + '?name=' + this.folderName)
+    }
+
+    function saveQuery() {
+      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value + '&folder_name=' + this.folderName)
+    }
 
     function getNews() {
-      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + this.query + '&sources=' + this.selected)
+      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + this.query)
           .then(response => response.json())
           .then(response => news.value = response)
     }
@@ -57,21 +74,33 @@ export default {
       fetch('http://localhost:3000/api/v1/delete_query' + '?query=' + query)
     }
 
-    function saveQuery() {
-      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value)
+    function loadFolder(){
+      fetch('http://localhost:3000/api/v1/load_queries_from_folder' + '?folder_name=' + selectedFolder.value)
+          .then(response => response.json())
+          .then(response => folderContents.value = response)
+
     }
+
     return {
+      loadFolder,
       getNewsFromSavedQuery,
       saveQuery,
       deleteQuery,
       getNews,
+      addFolder,
       news: news,
-      query: query
+      query: query,
+      folderName: folderName,
+      folderContents: folderContents,
+      selected: null
     }
   },
   setup()
   {
     let saved_queries = ref([])
+    let folders = ref([])
+    let folder_names = ref([])
+    let options = [{value:'a',text:'a' }]
 
     function getSavedQueries() {
       fetch('http://localhost:3000/api/v1/get_saved_queries')
@@ -79,8 +108,16 @@ export default {
           .then(response => saved_queries.value = response)
     }
 
-    getSavedQueries()
-    return {saved_queries}
+    function getFolders() {
+      fetch('http://localhost:3000/api/v1/get_folders')
+          .then(response => response.json())
+          .then(response => folders.value = response)
+          .then(response => folder_names.value = response.map(d => d.name))
+    }
+
+    getFolders()
+
+    return {saved_queries, folders, options, folder_names}
   }
 }
 </script>

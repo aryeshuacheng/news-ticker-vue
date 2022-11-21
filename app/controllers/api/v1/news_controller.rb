@@ -27,7 +27,9 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def save_query
-    Query.create(user_id: current_user.id, name: params[:query])
+    folder = Folder.find_by(name: params[:folder_name], user_id: current_user.id)
+
+    Query.create(user_id: current_user.id, name: params[:query], folder_id: folder.id)
   end
 
   def delete_query
@@ -35,8 +37,27 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def get_saved_queries
-    @queries = Query.where(user_id: current_user.id)
+    folder = Folder.find_by(name: params[:folder_name], user_id: current_user.id)
+
+    @queries = Query.where(user_id: current_user.id, folder_id: folder.id)
 
     render json: @queries
+  end
+
+  def add_folder
+    Folder.create(user_id: current_user.id, name: params[:name])
+  end
+
+  def get_folders
+    @folders = Folder.where(user_id: current_user.id)
+
+    render json: @folders
+  end
+
+  def load_queries_from_folder
+    folder = Folder.find_by(name: params[:folder_name], user_id: current_user.id)
+    queries = Query.where(user_id: current_user.id, folder_id: folder.id)
+
+    render json: queries
   end
 end
