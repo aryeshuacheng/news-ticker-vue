@@ -18,8 +18,6 @@
   </div>
 
   <div class="center">
-    <p><center>The parent will initiate API calls to retrieve news and send it to the child (News table)</center></p>
-    <br>
     <center>
       Search: <input v-model="query" placeholder="Query"/> <button @click="getNews()">Get News</button>
       <br>
