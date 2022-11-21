@@ -21,15 +21,13 @@
     <center>
       <b>Folders:</b>
       <b-form-select v-model="selected" :options="folder_names"></b-form-select>
-      <div class="mt-3">Selected: <strong>{{ selected }}</strong></div>
-      <br>
       <button @click="loadFolder()">Load Folder</button>
+      <br>
       Add Folder: <input v-model="folderName" placeholder="Folder Name"/>
       <button @click="addFolder()">Add</button>
       <br>
-      Search: <input v-model="query" placeholder="Query"/> <button @click="getNews()">Get News</button>
+      Search: <input v-model="query" placeholder="Query"/><button @click="saveQuery()">Save Query To Folder</button><button @click="getNews()">Get News</button>
       <br>
-      <button @click="saveQuery()">Save Query To Folder</button>
     </center>
   </div>
 <News :news="news"/>
@@ -39,8 +37,8 @@
 import News from './news.vue'
 import {ref} from "vue";
 
-let folderName = ref('Entertainment')
-let query = ref('Hope')
+let folderName = ref()
+let query = ref()
 
 export default {
   name: "Home",
@@ -55,7 +53,7 @@ export default {
     }
 
     function saveQuery() {
-      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value + '&folder_name=' + this.folderName)
+      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value + '&folder_name=' + this.selected)
     }
 
     function getNews() {
@@ -75,7 +73,7 @@ export default {
     }
 
     function loadFolder(){
-      fetch('http://localhost:3000/api/v1/load_queries_from_folder' + '?folder_name=' + selectedFolder.value)
+      fetch('http://localhost:3000/api/v1/load_queries_from_folder' + '?folder_name=' + this.selected)
           .then(response => response.json())
           .then(response => folderContents.value = response)
 
