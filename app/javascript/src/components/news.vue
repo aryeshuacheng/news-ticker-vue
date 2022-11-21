@@ -11,7 +11,7 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="article in news">
+        <b-tr v-for="article in exa">
           <b-td><a v-bind:href="article.url"> {{ article.source.name }} </a></b-td>
           <b-td>{{ article.title }}</b-td>
           <b-td>{{ article.author }}</b-td>
@@ -26,9 +26,12 @@
 <script>
   import { ref } from 'vue'
 
-export default {
-  name: 'News',
-  props: {name},
+  let hope
+  let exa
+
+  export default {
+  hope: 'test',
+  props: {name, hope, exa},
   setup() {
     let news = ref([])
     let query = ref('Bitcoin')
@@ -36,12 +39,6 @@ export default {
     let source_name = ref('')
     let selected = ref('')
     let saved_queries = ref([])
-
-    function getNews() {
-      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value + '&sources=' + this.selected)
-          .then(response => response.json())
-          .then(response => news.value = response)
-    }
 
     function getNewsFromSavedQuery(query) {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
@@ -72,7 +69,7 @@ export default {
     getSavedQueries()
     getSources()
 
-    return { getNews,getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
+    return {getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
   }
 }
 </script>
