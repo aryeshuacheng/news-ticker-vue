@@ -31,25 +31,29 @@
 import News from './news.vue'
 import {ref} from "vue";
 
+let query = ref('Hope')
+
 export default {
   name: "Home",
   components: {News},
   setup(){
+
   },
   data()
   {
     let news = ref()
-    let query = ref('Test')
+
 
     function getNews() {
-      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value + '&sources=' + this.selected)
+      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + this.query + '&sources=' + this.selected)
           .then(response => response.json())
           .then(response => news.value = response)
     }
 
     return {
       getNews,
-      exa: news
+      exa: news,
+      query: query
     }
   }
 }
