@@ -18,18 +18,42 @@
     <p><center>The parent will initiate API calls to retrieve news and send it to the child (News table)</center></p>
     <br>
     <center>
-      Search: <input v-model="query" placeholder="Query"/> <button @click="saveQuery()">Save Query</button>
+      Search: <input v-model="query" placeholder="Query"/> <button @click="getNews()">Get News</button>
+      <br>
+      <button @click="saveQuery()">Save Query</button>
     </center>
   </div>
-<News name="Bobby"/>
+<News :exa="exa"/>
 
-<SavedQueries />
+<!--<SavedQueries  />-->
 </template>
 <script>
 import News from './news.vue'
+import {ref} from "vue";
 
 export default {
   name: "Home",
-  components: {News}
+  components: {News},
+  setup(){
+  },
+  data()
+  {
+    let news = ref([])
+    let query = ref('Bitcoin')
+    let saved_queries = ref([])
+
+    function getNews() {
+      fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query.value + '&sources=' + this.selected)
+          .then(response => response.json())
+          .then(response => news.value = response)
+    }
+
+    return {
+      getNews,
+      name: 'Alexander',
+      hope: 'Happiness!',
+      exa: news
+    }
+  }
 }
 </script>
