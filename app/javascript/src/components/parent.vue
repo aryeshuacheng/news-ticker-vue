@@ -23,7 +23,7 @@
       <button @click="saveQuery()">Save Query</button>
     </center>
   </div>
-<News :exa="exa"/>
+<News :news="news"/>
 
 <!--<SavedQueries  />-->
 </template>
@@ -52,7 +52,7 @@ export default {
 
     return {
       getNews,
-      exa: news,
+      news: news,
       query: query
     }
   }

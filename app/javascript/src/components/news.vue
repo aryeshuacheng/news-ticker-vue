@@ -11,7 +11,7 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="article in exa">
+        <b-tr v-for="article in news">
           <b-td><a v-bind:href="article.url"> {{ article.source.name }} </a></b-td>
           <b-td>{{ article.title }}</b-td>
           <b-td>{{ article.author }}</b-td>
@@ -26,11 +26,10 @@
 <script>
   import { ref } from 'vue'
 
-  let exa
+  let news
   export default {
-  props: {exa},
+  props: {news},
   setup() {
-    let news = ref([])
     let query = ref('Bitcoin')
     let sources = ref([])
     let source_name = ref('')
@@ -66,7 +65,7 @@
     getSavedQueries()
     getSources()
 
-    return {getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries,  news, query, sources, source_name, selected}
+    return {getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries, query, sources, source_name, selected}
   }
 }
 </script>
