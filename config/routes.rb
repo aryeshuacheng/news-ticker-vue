@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'get_sources', to: 'news#get_sources'
       get 'get_countries', to: 'news#get_countries'
       get 'save_query', to: 'news#save_query'
+      get 'delete_query', to: 'news#delete_query'
       get 'get_saved_queries', to: 'news#get_saved_queries'
     end
   end

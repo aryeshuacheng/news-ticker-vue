@@ -27,11 +27,15 @@ class Api::V1::NewsController < ApplicationController
   end
 
   def save_query
-    Query.create(name: params[:query])
+    Query.create(user_id: current_user.id, name: params[:query])
+  end
+
+  def delete_query
+    Query.where(user_id: current_user.id, name: params[:query]).destroy_all
   end
 
   def get_saved_queries
-    @queries = Query.all
+    @queries = Query.where(user_id: current_user.id)
 
     render json: @queries
   end

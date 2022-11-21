@@ -34,7 +34,6 @@
     let sources = ref([])
     let source_name = ref('')
     let selected = ref('')
-    let saved_queries = ref([])
 
     function getNewsFromSavedQuery(query) {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + query)
@@ -48,24 +47,13 @@
           .then(response => sources.value = response)
     }
 
-    function getSavedQueries() {
-      fetch('http://localhost:3000/api/v1/get_saved_queries')
-          .then(response => response.json())
-          .then(response => saved_queries.value = response)
-    }
 
-    function saveQuery() {
-      fetch('http://localhost:3000/api/v1/save_query' + '?query=' + query.value)
-    }
 
-    function deleteQuery() {
-      fetch('http://localhost:3000/api/v1/delete_query' + '?query=' + query.value)
-    }
 
-    getSavedQueries()
+
     getSources()
 
-    return {getSources, saveQuery, getNewsFromSavedQuery, deleteQuery, getSavedQueries, saved_queries, query, sources, source_name, selected}
+    return {getSources, getNewsFromSavedQuery, query, sources, source_name, selected}
   }
 }
 </script>
