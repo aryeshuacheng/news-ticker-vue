@@ -18,16 +18,29 @@
   </div>
 
   <div class="center">
+
     <center>
-      <b>Folders:</b>
-      <b-form-select v-model="selected" :options="folder_names"></b-form-select>
-      <button @click="loadFolder()">Load Folder</button>
+      <b-container class="bv-example-row">
+        <b-row class="justify-content-md-center">
+        <b-col col lg="2">Folders<b-form-select v-model="selected" :options="folder_names"></b-form-select><br><b-button variant="success" @click="loadFolder()">Load Folder</b-button></b-col>
+        </b-row>
+      </b-container>
+      <div class = "query">
+        <b-input-group class="mt-3">
+          <b-form-input v-model="folderName" placeholder="Folder Name"/>
+          <b-button variant="outline-primary" @click="addFolder()">Add</b-button>
+        </b-input-group>
+      </div>
       <br>
-      Add Folder: <input v-model="folderName" placeholder="Folder Name"/>
-      <button @click="addFolder()">Add</button>
+      <div class="query">
+        <b-input-group class="mt-3">
+          <b-form-input v-model="query" placeholder="Query"></b-form-input>
+          <b-button variant="outline-primary" @click="saveQuery()">Save Query To Folder</b-button>
+          <b-button variant="outline-primary" @click="getNews()">Get News</b-button>
+        </b-input-group>
+      </div>
       <br>
-      Search: <input v-model="query" placeholder="Query"/><button @click="saveQuery()">Save Query To Folder</button><button @click="getNews()">Get News</button>
-      <br>
+
     </center>
   </div>
 <News :news="news"/>
