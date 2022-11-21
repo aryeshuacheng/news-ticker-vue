@@ -36,13 +36,9 @@ let query = ref('Hope')
 export default {
   name: "Home",
   components: {News},
-  setup(){
-
-  },
   data()
   {
     let news = ref()
-
 
     function getNews() {
       fetch('http://localhost:3000/api/v1/get_news' + '?query=' + this.query + '&sources=' + this.selected)
