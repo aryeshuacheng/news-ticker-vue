@@ -1,15 +1,10 @@
 class Api::V1::NewsController < ApplicationController
-  before_action :initiate_api
-
-  def initiate_api
-    @news_connection = News.new("f8eb522c7f47469d9fc91df0859faeb8")
-  end
 
   def get_news
     if params[:sources].nil?
-      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8').body)['articles']
+      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=cbc61efe17a143ae83fbb8fd3d5037ff').body)['articles']
     else
-      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=f8eb522c7f47469d9fc91df0859faeb8'+'&source=' + params[:sources]).body)['articles']
+      @news = JSON.parse(Excon.get('https://newsapi.org/v2/everything?q=' + params[:query] +'&apiKey=cbc61efe17a143ae83fbb8fd3d5037ff'+'&source=' + params[:sources]).body)['articles']
     end
 
     render json: @news

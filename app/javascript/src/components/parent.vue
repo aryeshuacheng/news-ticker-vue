@@ -22,7 +22,7 @@
     <center>
       <b-container class="bv-example-row">
         <b-row class="justify-content-md-center">
-        <b-col col lg="2">Folders<b-form-select v-model="selected" :options="folder_names"></b-form-select><br><b-button variant="success" @click="loadFolder()">Load Folder</b-button></b-col>
+        <b-col col lg="2">Folders<b-form-select v-model="selected" @input= loadFolder() :options="folder_names"></b-form-select><br><b-button variant="success" @click="loadFolder()">Load Folder</b-button></b-col>
         </b-row>
       </b-container>
       <div class = "query">
