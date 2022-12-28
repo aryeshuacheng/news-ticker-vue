@@ -18,7 +18,6 @@
   </div>
 
   <div class="center">
-
     <center>
       <b-container class="bv-example-row">
         <b-row class="justify-content-md-center">
@@ -40,7 +39,6 @@
         </b-input-group>
       </div>
       <br>
-
     </center>
   </div>
 <News :news="news"/>
